@@ -1,0 +1,34 @@
+.container {
+  padding: 1.2rem;
+}
+
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navBarOptionContainer {
+  display: flex;
+}
+@media only screen and (max-width: 600px) {
+  .navBarOptionContainer {
+    font-size: 0.6rem;
+  }
+}
+
+.JoinButton {
+  background-color: #5685fc;
+  color: white;
+  width: 120px;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+.JoinButton:hover {
+  background-color: #007ac5;
+}
+.JoinButton p {
+  font-weight: 500;
+}

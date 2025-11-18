@@ -1,0 +1,75 @@
+GET http://localhost:8080 HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:8080/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"aman@gmail.com",
+  "password":"aman123"
+}
+###
+
+GET http://localhost:8080/get_user_and_profile HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "8b4a9499db0b7668d09b03e2bdee16ec920ac380c98ec5cbe59c51d67ec8a7ff"
+}
+
+###
+
+POST http://localhost:8080/update_profile_data HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "272e528134cf90b619a48ceb14c2629a051816c03bacc8d9d262a6f3a93e013f",
+  "bio": "Hello, I'm Abhishek!",
+  "currentPost": "Working on a cool project."
+}
+
+###
+GET http://localhost:8080/get_all_users HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "97b78f9b3a68a3931627417d756ea7c76d971421b9864e8d0ee68b611b01d41d"
+}
+
+###
+POST http://localhost:8080/post HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "a33d9be2ef0ba3ebbf4d2d76cf8a6d82ec9e3259aa1cab0771557c8d2983d5df",
+  "body": "This is a new post",
+  "media": "image.jpg",
+  "fileType": "image/jpeg"
+}
+
+###
+
+POST http://localhost:8080/update_profile_data HTTP/1.1
+Content-Type: application/json
+
+{
+  "token":"8f0d856cd789c11a47c13bce5584e9fad8280114c14340ee48fc617bd570a194",
+  "bio":"Hey, My name is Abhishek. I work for XYZ Corp.",
+  "currentPost":"CTO",
+  "pastWork":[
+    {
+      "company":"Microsoft",
+      "position":"CTO",
+      "years":"2+"
+    }
+  ],
+  "education":[
+    {
+      "school":"IIT Delhi",
+      "degree":"B.Tech",
+      "fieldofStudy":"Don't know this one!"
+    }
+  ]
+}

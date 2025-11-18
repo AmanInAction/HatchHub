@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+  align-items: center;
+  background-color: snow;
+}
+
+.cardContainer {
+  height: 80vh;
+  display: flex;
+  border-radius: 14px;
+  overflow: hidden;
+  width: 80vw;
+  background: white;
+  box-shadow: 10px 10px 10px rgb(173, 173, 173);
+}
+
+.cardContainer_left {
+  flex: 0.6;
+  padding: 2rem;
+  text-align: center;
+}
+
+.cardContainer_right {
+  flex: 0.4;
+  background: #3c80d3e3;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-inline: 2.3rem;
+}
+.cardLeftHeading {
+  font-weight: 450;
+  font-size: 2rem;
+  font-display: fallback;
+}
+
+.inputField {
+  width: 100%;
+  padding-inline: 1.4rem;
+  padding-block: 0.8rem;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid rgb(244, 208, 0);
+}
+
+.inputContainers {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  gap: 1.7rem;
+}
+
+.inputRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .cardContainer {
+    flex-direction: column;
+  }
+}
+
+.button {
+  margin-top: 1.4rem;
+  border-radius: 20px;
+  border: 1px solid black;
+  color: #f9f9f9;
+  font-size: 1rem;
+  background: #0035a783;
+  font-weight: bold;
+  user-select: none;
+  cursor: pointer;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  background: rgba(0, 100, 171, 0.731);
+}
