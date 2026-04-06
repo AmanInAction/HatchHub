@@ -56,7 +56,7 @@ function LoginComponent() {
               {isLogin ? "Sign In" : "Sign Up"}
             </p>
 
-            <p style={{ color: authState.isError ? "red" : "green" }}>
+            <p style={{ color: authState.isError ? "#a14a39" : "#32624b" }}>
               {authState.message}
             </p>
 
@@ -113,6 +113,8 @@ function LoginComponent() {
             </div>
           </div>
           <div className={styles.cardContainer_right}>
+            <p>Thoughtful networking starts with a clear profile.</p>
+            <h2>{isLogin ? "Welcome back" : "Create your space"}</h2>
             {isLogin ? (
               <p>Don't have an account?</p>
             ) : (

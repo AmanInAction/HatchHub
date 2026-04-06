@@ -1,202 +1,470 @@
-.scrollComponent {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.createPostContainer {
-  display: flex;
-  height: 10svh;
-  width: 100%;
-  padding-inline: 0.8rem;
-  gap: 1.3rem;
-  position: relative;
-  align-items: center;
-  background: rgb(241, 222, 222);
-}
-
-.createPostContainer > textarea {
-  width: 100%;
-}
 .wrapper {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  gap: 1.3rem;
-  max-width: 80%;
+  gap: 1.5rem;
+  width: 100%;
 }
 
-.uploadButton {
-  position: absolute;
-  right: 0;
-  bottom: -3rem;
-  background-color: rgba(1, 114, 212, 0.429);
-  color: white;
-  border-radius: 10px;
-  padding-inline: 1.2rem;
-  padding-block: 0.8rem;
-  cursor: pointer;
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.9fr);
+  gap: 1rem;
+  padding: 1.75rem;
+  border: 1px solid rgba(110, 126, 112, 0.14);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top left, rgba(146, 171, 150, 0.22), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(244, 240, 233, 0.96));
+  box-shadow: 0 22px 70px rgba(70, 80, 71, 0.08);
 }
 
-.userProfile {
-  border-radius: 100%;
-  height: 60%;
-  width: fit-content;
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.02;
+  max-width: 12ch;
+  color: #193126;
 }
 
-.Fab {
+.heroEyebrow,
+.modalEyebrow {
+  margin-bottom: 0.55rem;
+  color: #5d7062;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.heroText {
+  margin-top: 1rem;
+  max-width: 58ch;
+  color: #526257;
+  line-height: 1.7;
+}
+
+.heroStatCard {
+  align-self: stretch;
   display: flex;
-  justify-content: center;
-  color: aliceblue;
-  background-color: gray;
-  border-radius: 100%;
-  width: min-content;
-  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-radius: 22px;
+  background: rgba(24, 49, 38, 0.92);
+  color: #f4efe7;
 }
-.Fab > svg {
-  height: 30px;
-  width: fit-content;
+
+.heroStatCard span {
+  color: rgba(244, 239, 231, 0.7);
+}
+
+.heroStatCard strong {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.heroStatCard p {
+  color: rgba(244, 239, 231, 0.74);
+  line-height: 1.6;
+}
+
+.feedGrid {
+  width: 100%;
+}
+
+.composeCard,
+.postCard,
+.allCommentsContainer {
+  border: 1px solid rgba(110, 126, 112, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 22px 55px rgba(77, 88, 79, 0.08);
+}
+
+.composeCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 1.3rem;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.composeHeader,
+.postIdentity,
+.singleComment_profileContainer,
+.commentModalHeader {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.composeIntro {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.composeQuickStat {
+  min-width: 110px;
+  padding: 0.8rem 0.95rem;
+  border-radius: 18px;
+  background: #f4efe7;
+  color: #284034;
+  text-align: right;
+}
+
+.composeQuickStat span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #77857a;
+}
+
+.composeQuickStat strong {
+  font-size: 1.55rem;
+  line-height: 1.1;
+}
+
+.userProfile,
+.postIdentity img,
+.singleComment_profileContainer img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.composeTitle {
+  font-weight: 600;
+  color: #1e352b;
+}
+
+.composeSubtitle {
+  color: #708174;
+  line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 .textAreaOfContent {
-  width: 80%;
-  height: 80%;
-  border: 2px solid rgb(95, 63, 63);
-  border-radius: 10px;
-  font-family: cursive;
-  padding-inline: 1.5rem;
-  padding-block: 0.8rem;
+  width: 100%;
+  min-height: 5.5rem;
+  padding: 1rem 1.05rem;
+  border-radius: 20px;
+  border: 1px solid rgba(121, 137, 124, 0.18);
+  background: #f7f4ef;
+  font: inherit;
+  color: #21372d;
+  line-height: 1.6;
+  resize: vertical;
   outline: none;
-  resize: none;
-  overflow: hidden;
 }
 
-.singleCard {
-  width: 100%;
-  border-radius: 10px 10px 0px 0px;
-  border-bottom: 1px solid rgb(179, 179, 179);
+.composeRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  align-items: stretch;
 }
 
-.singleCard_profileContainer {
+.textAreaOfContent:focus,
+.postCommentContainer input:focus {
+  border-color: rgba(51, 110, 75, 0.4);
+  box-shadow: 0 0 0 4px rgba(92, 141, 113, 0.1);
+}
+
+.composeActions {
   display: flex;
-  align-items: flex-start;
-  gap: 1.2rem;
-  padding: 1.2rem;
-  padding-right: 3.4rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: stretch;
 }
 
-.singleCard_profileContainer > img {
-  width: 10%;
-  border-radius: 50%;
+.attachButton,
+.uploadButton,
+.deleteButton,
+.optionButton,
+.postCommentContainer_btn,
+.closeButton {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.singleCard_image {
-  width: 100%;
-  padding-top: 0.6rem;
-  height: fit-content;
+.attachButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  background: #f0ece4;
+  color: #2f483c;
+}
+
+.attachButton svg,
+.optionButton svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+.attachButton span {
+  max-width: 150px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.singleCard_image > img {
-  width: 50%;
-  height: auto;
+.uploadButton,
+.postCommentContainer_btn {
+  min-height: 52px;
+  padding: 0.9rem 1.3rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #244638, #3d6d58);
+  color: #f7f4ef;
+  font-weight: 600;
+}
+
+.uploadButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.postCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.35rem;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.postMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.postAuthor {
+  font-weight: 600;
+  color: #1f342a;
+}
+
+.postHandle,
+.postDate,
+.commentHandle {
+  color: #758478;
+  font-size: 0.92rem;
+}
+
+.closeButton {
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: #f5ebe7;
+  color: #8e493a;
+}
+
+.postBody,
+.commentBody {
+  color: #415247;
+  line-height: 1.72;
+  word-break: break-word;
+}
+
+.mediaFrame {
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #e8e2d8;
+}
+
+.mediaFrame img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
 .optionsContainer {
   display: flex;
-  height: 20%;
-  width: 100%;
-  justify-content: space-between;
-  padding-block: 0.6rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-.singleOption_optionsContainer {
-  height: 80%;
-  min-width: 2rem;
-  cursor: pointer;
+.optionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  background: #f7f4ef;
+  color: #385344;
 }
 
-.singleOption_optionsContainer > svg {
-  height: 100%;
-  width: 10%;
-  min-width: 1rem;
+.optionButton:disabled {
+  opacity: 0.72;
+  cursor: default;
+}
+
+.optionButtonActive {
+  background: rgba(49, 93, 69, 0.12);
+  color: #234c37;
 }
 
 .commentsContainer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  inset: 0;
+  padding: 1.5rem;
+  background: rgba(21, 29, 24, 0.58);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
 }
 
 .allCommentsContainer {
-  position: relative;
-  width: 400px; /* fixed width */
-  height: 60vh; /* fixed height */
-  max-height: 80vh; /* allow scrolling */
-  background: white;
-  border-radius: 10px;
-  padding: 1rem;
+  width: min(720px, 100%);
+  max-height: min(84vh, 780px);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.commentModalHeader {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.commentsList {
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-right: 0.2rem;
+}
+
+.singleComment {
+  padding: 1rem;
+  border-radius: 18px;
+  background: #f7f4ef;
+}
+
+.commentAuthor {
+  font-weight: 600;
+  color: #1f342a;
+}
+
+.emptyComments,
+.placeholderState {
+  color: #66756b;
+  text-align: center;
+  padding: 2rem;
 }
 
 .postCommentContainer {
-  position: absolute;
-  overflow-y: auto;
-  bottom: 1.2rem;
-  left: 1.2rem;
-  width: 90%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem;
+  gap: 0.8rem;
 }
 
-.postCommentContainer > input {
-  flex: 0.9;
-  padding-inline: 1.2rem;
-  padding-block: 0.7rem;
-  border: none;
+.postCommentContainer input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(121, 137, 124, 0.18);
+  background: #f7f4ef;
   outline: none;
-  background-color: rgb(231, 229, 229);
-  border-radius: 13px;
+  font: inherit;
 }
 
-.postCommentContainer > input:focus {
-  border: 1px solid silver;
-}
-.postCommentContainer_btn {
-  flex: 0.1;
-  width: fit-content;
-  padding: 0.8rem;
-  background-color: rgb(0, 148, 247);
-  border-radius: 15px;
-  text-align: center;
-  color: antiquewhite;
-  cursor: pointer;
+.hero:hover,
+.heroStatCard:hover,
+.composeCard:hover,
+.postCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 70px rgba(77, 88, 79, 0.12);
 }
 
-@media only screen and (max-width: 600px) {
+.attachButton:hover,
+.uploadButton:hover,
+.optionButton:hover,
+.postCommentContainer_btn:hover,
+.closeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(52, 74, 62, 0.14);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero,
+  .composeCard,
+  .postCard,
   .allCommentsContainer {
-    width: 90%;
-    height: 70vh;
+    border-radius: 22px;
   }
-  .postCommentContainer_btn {
-    padding: 0.5rem;
-    font-size: 0.8rem;
+
+  .hero {
+    padding: 1.3rem;
   }
-  .postCommentContainer > input {
-    padding-inline: 0.8rem;
-    padding-block: 0.5rem;
+
+  .composeIntro,
+  .composeRow {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
   }
-  .createPostContainer {
-    width: 90vw;
+
+  .composeQuickStat {
+    text-align: left;
+  }
+
+  .postHeader,
+  .commentModalHeader,
+  .postCommentContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .optionsContainer {
+    flex-direction: column;
+  }
+
+  .optionButton,
+  .uploadButton,
+  .postCommentContainer_btn,
+  .closeButton,
+  .attachButton {
+    justify-content: center;
+  }
+
+  .commentsContainer {
+    padding: 0.9rem;
   }
 }

@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "https://hatchhub.vercel.app",
+  process.env.Frontend_URL,
   "http://localhost:3000", // for local dev
 ];
 
@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

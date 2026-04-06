@@ -1,5 +1,4 @@
 import { clientServer } from "@/config";
-import { useSearchParams } from "next/navigation";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import UserLayout from "@/layouts/UserLayout";
 import styles from "./index.module.css";
@@ -38,7 +37,7 @@ export default function ViewProfilePage({ userProfile }) {
   };
 
   useEffect(() => {
-    dispatch(getAllPosts());
+    getUsersPost();
   }, [dispatch]);
 
   useEffect(() => {
@@ -51,10 +50,6 @@ export default function ViewProfilePage({ userProfile }) {
 
   useEffect(() => {
     if (!Array.isArray(authState.connections)) return;
-
-    const connection = authState.connections.find(
-      (user) => user?.userId?._id === userProfile?.userId?._id
-    );
 
     if (
       authState.connectionRequest.some(
@@ -75,11 +70,6 @@ export default function ViewProfilePage({ userProfile }) {
     userProfile?.userId?._id,
     authState.connectionRequest,
   ]);
-
-  useEffect(() => {
-    getUsersPost();
-  }, []);
-  const searchParams = useSearchParams();
   return (
     <UserLayout>
       <DashboardLayout>
@@ -93,16 +83,9 @@ export default function ViewProfilePage({ userProfile }) {
           <div className={styles.profileContainer_details}>
             <div className={styles.profileContainer__flex}>
               <div style={{ flex: "0.8" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "fit-content",
-                    alignItems: "center",
-                    gap: "1.2rem",
-                  }}
-                >
+                <div className={styles.identityRow}>
                   <h2>{userProfile?.userId?.name}</h2>
-                  <p style={{ color: "gray" }}>
+                  <p style={{ color: "#7a887e" }}>
                     @{userProfile?.userId?.username}
                   </p>
                 </div>
@@ -115,11 +98,12 @@ export default function ViewProfilePage({ userProfile }) {
                   }}
                 >
                   {isCurrentUserInConnection ? (
-                    <button className={styles.connectedButton}>
+                    <button type="button" className={styles.connectedButton}>
                       {isConnectionNull ? "Pending" : "Connected"}
                     </button>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => {
                         dispatch(
                           sendConnectionRequest({
@@ -133,14 +117,15 @@ export default function ViewProfilePage({ userProfile }) {
                       Connect
                     </button>
                   )}
-                  <div
+                  <button
+                    type="button"
                     onClick={async () => {
                       window.open(
                         `${process.env.NEXT_PUBLIC_SERVER_URL}/download_resume?id=${userProfile?.userId?._id}`,
                         "_blank"
                       );
                     }}
-                    style={{ cursor: "pointer" }}
+                    className={styles.downloadButton}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +142,7 @@ export default function ViewProfilePage({ userProfile }) {
                         d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                       />
                     </svg>
-                  </div>
+                  </button>
                 </div>
 
                 <div>
@@ -165,7 +150,7 @@ export default function ViewProfilePage({ userProfile }) {
                 </div>
               </div>
 
-              <div style={{ flex: "0.2" }}>
+              <div className={styles.activityColumn}>
                 <h4>Recent Activity</h4>
                 {userPosts.map((post) => {
                   return (

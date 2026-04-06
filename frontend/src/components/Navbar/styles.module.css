@@ -1,34 +1,107 @@
-.container {
-  padding: 1.2rem;
+.shell {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 1rem 1.25rem 0;
+  background: linear-gradient(180deg, rgba(246, 242, 234, 0.95), rgba(246, 242, 234, 0.7), transparent);
+  backdrop-filter: blur(14px);
 }
 
 .navBar {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(101, 117, 101, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 16px 40px rgba(73, 83, 73, 0.08);
 }
+
+.brand,
+.navButton,
+.secondaryButton,
+.JoinButton {
+  border: none;
+  cursor: pointer;
+}
+
+.brand {
+  display: inline-flex;
+  gap: 0.15rem;
+  align-items: center;
+  background: transparent;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e3229;
+}
+
+.brand span:last-child {
+  color: #6f8f77;
+}
+
 .navBarOptionContainer {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
-@media only screen and (max-width: 600px) {
-  .navBarOptionContainer {
-    font-size: 0.6rem;
-  }
+
+.userBadge {
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.8rem;
+  border-radius: 16px;
+  background: #f4efe7;
+  color: #2d4338;
+}
+
+.userBadgeLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7a887e;
+}
+
+.navButton,
+.secondaryButton,
+.JoinButton {
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.navButton {
+  background: #eef2ec;
+  color: #294033;
+}
+
+.secondaryButton {
+  background: #f7ebe6;
+  color: #8e4e3b;
 }
 
 .JoinButton {
-  background-color: #5685fc;
-  color: white;
-  width: 120px;
-  text-align: center;
-  padding: 0.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  user-select: none;
+  background: linear-gradient(135deg, #234638, #3e6a56);
+  color: #f8f5ee;
 }
-.JoinButton:hover {
-  background-color: #007ac5;
-}
-.JoinButton p {
-  font-weight: 500;
+
+@media only screen and (max-width: 720px) {
+  .shell {
+    padding-inline: 0.85rem;
+  }
+
+  .navBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .navBarOptionContainer {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }

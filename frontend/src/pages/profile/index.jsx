@@ -4,8 +4,7 @@ import UserLayout from "@/layouts/UserLayout";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import { getAboutUser } from "@/config/redux/action/authAction";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "@/config/redux/action/postAction";
-import { useRouter } from "next/router";
+import { deletePost, getAllPosts } from "@/config/redux/action/postAction";
 import { clientServer } from "@/config";
 
 function ProfilePage() {
@@ -14,10 +13,9 @@ function ProfilePage() {
   // read posts array from the reducer (may be undefined until loaded).
   // IMPORTANT: avoid returning a new empty array here, because that would
   // create a new reference each render and retrigger effects that depend on it.
-  const postsFromStore = useSelector((state) => state.postReducer?.posts);
-  const router = useRouter();
-
+  const postsFromStore = useSelector((state) => state.posts?.posts);
   const [userPosts, setUserPosts] = useState(authState.userPosts || []);
+  const [currentPostIndex, setCurrentPostIndex] = useState(0);
 
   const [userProfile, setUserProfile] = useState({
     userId: {
@@ -45,7 +43,7 @@ function ProfilePage() {
   useEffect(() => {
     dispatch(getAboutUser({ token: localStorage.getItem("token") }));
     dispatch(getAllPosts());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (authState.user) {
@@ -53,38 +51,45 @@ function ProfilePage() {
 
       // use the posts value from the store if available, otherwise filter an empty array
       const post = (postsFromStore || []).filter(
-        (p) => p?.userId?.username === authState.user.userId.username
+        (p) => p?.userID?.username === authState.user.userId.username
       );
 
       setUserPosts(post);
     }
   }, [authState.user, postsFromStore]);
 
+  useEffect(() => {
+    if (userPosts.length === 0) {
+      setCurrentPostIndex(0);
+      return;
+    }
+
+    if (currentPostIndex > userPosts.length - 1) {
+      setCurrentPostIndex(userPosts.length - 1);
+    }
+  }, [currentPostIndex, userPosts]);
+
   const updateProfilePicture = async (file) => {
     const formData = new FormData();
     formData.append("profilePicture", file);
     formData.append("token", localStorage.getItem("token"));
 
-    const response = await clientServer.post(
-      "/update_profile_picture",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    await clientServer.post("/update_profile_picture", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     dispatch(getAboutUser({ token: localStorage.getItem("token") }));
   };
 
   const updateProfileDetails = async () => {
-    const request = await clientServer.post("/user_update", {
+    await clientServer.post("/user_update", {
       token: localStorage.getItem("token"),
       name: userProfile.userId.name,
     });
 
-    const response = await clientServer.post("/update_profile_data", {
+    await clientServer.post("/update_profile_data", {
       token: localStorage.getItem("token"),
       bio: userProfile.bio,
       currerntPost: userProfile.currentPost,
@@ -93,6 +98,22 @@ function ProfilePage() {
     });
 
     dispatch(getAboutUser({ token: localStorage.getItem("token") }));
+  };
+
+  const activeManagedPost = userPosts[currentPostIndex] || null;
+
+  const handleDeleteManagedPost = async (postId) => {
+    await dispatch(deletePost({ postId })).unwrap();
+    const refreshedPosts = (postsFromStore || []).filter(
+      (post) => post._id !== postId
+    );
+
+    if (refreshedPosts.length === 0) {
+      setCurrentPostIndex(0);
+      return;
+    }
+
+    setCurrentPostIndex((prev) => Math.min(prev, refreshedPosts.length - 1));
   };
 
   return (
@@ -133,16 +154,9 @@ function ProfilePage() {
               />
             </div>
             <div className={styles.profileContainer_details}>
-              <div style={{ display: "flex", gap: "0.7rem" }}>
-                <div style={{ flex: "0.8" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "fit-content",
-                      alignItems: "center",
-                      gap: "1.2rem",
-                    }}
-                  >
+              <div className={styles.profileGrid}>
+                <div>
+                  <div className={styles.identityRow}>
                     <input
                       className={styles.editName}
                       type="text"
@@ -160,7 +174,7 @@ function ProfilePage() {
                       }}
                     />
 
-                    <p style={{ color: "gray" }}>
+                    <p style={{ color: "#7a887e" }}>
                       @{userProfile?.userId?.username}
                     </p>
                   </div>
@@ -190,7 +204,7 @@ function ProfilePage() {
                   </div>
                 </div>
 
-                <div style={{ flex: "0.2" }}>
+                <div className={styles.activityColumn}>
                   <h4>Recent Activity</h4>
                   {userPosts.map((post) => {
                     return (
@@ -242,6 +256,7 @@ function ProfilePage() {
               </div>
 
               <button
+                type="button"
                 onClick={() => {
                   setIsModalOpen(true);
                 }}
@@ -251,16 +266,95 @@ function ProfilePage() {
               </button>
             </div>
 
-            {userProfile != authState.user && (
-              <div
-                className={styles.connectionButton}
-                onClick={() => {
-                  updateProfileDetails();
-                }}
-              >
-                Update
+            <section className={styles.postManager}>
+              <div className={styles.postManagerHeader}>
+                <div>
+                  <p className={styles.sectionEyebrow}>My Posts</p>
+                  <h3>Review and manage your posts</h3>
+                </div>
+
+                {userPosts.length > 0 && (
+                  <p className={styles.postCount}>
+                    {currentPostIndex + 1} / {userPosts.length}
+                  </p>
+                )}
               </div>
-            )}
+
+              {activeManagedPost ? (
+                <div className={styles.managedPostCard}>
+                  <div className={styles.managedPostMeta}>
+                    <p>
+                      {new Date(activeManagedPost.createdAt).toLocaleDateString()}
+                    </p>
+                    <span>
+                      {activeManagedPost.likes}{" "}
+                      {activeManagedPost.likes === 1 ? "like" : "likes"}
+                    </span>
+                  </div>
+
+                  <p className={styles.managedPostBody}>
+                    {activeManagedPost.body || "This post contains media only."}
+                  </p>
+
+                  {activeManagedPost.media ? (
+                    <div className={styles.managedMediaFrame}>
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${activeManagedPost.media}`}
+                        alt="Managed post media"
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className={styles.postManagerActions}>
+                    <button
+                      type="button"
+                      className={styles.secondaryButton}
+                      onClick={() =>
+                        setCurrentPostIndex((prev) =>
+                          prev === 0 ? userPosts.length - 1 : prev - 1
+                        )
+                      }
+                    >
+                      Previous
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.secondaryButton}
+                      onClick={() =>
+                        setCurrentPostIndex((prev) =>
+                          prev === userPosts.length - 1 ? 0 : prev + 1
+                        )
+                      }
+                    >
+                      Next
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.deleteButton}
+                      onClick={() =>
+                        handleDeleteManagedPost(activeManagedPost._id)
+                      }
+                    >
+                      Delete This Post
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.emptyPostState}>
+                  <p>You have not published any posts yet.</p>
+                </div>
+              )}
+            </section>
+
+            <button
+              type="button"
+              className={styles.connectionButton}
+              onClick={() => {
+                updateProfileDetails();
+              }}
+            >
+              Update
+            </button>
           </div>
         )}
 
@@ -298,7 +392,8 @@ function ProfilePage() {
                 name="years"
                 onChange={handleWorkInputChange}
               />
-              <div
+              <button
+                type="button"
                 className={styles.connectionButton}
                 onClick={() => {
                   setUserProfile({
@@ -309,7 +404,7 @@ function ProfilePage() {
                 }}
               >
                 Add Work
-              </div>
+              </button>
             </div>
           </div>
         )}

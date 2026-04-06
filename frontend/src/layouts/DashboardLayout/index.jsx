@@ -1,11 +1,9 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { setTokenIsThere } from "@/config/redux/reducer/authReducer";
 import { getAllUsers } from "@/config/redux/action/authAction";
 import { useDispatch, useSelector } from "react-redux";
+
 function DashboardLayout({ children }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -14,166 +12,101 @@ function DashboardLayout({ children }) {
   useEffect(() => {
     if (!authState.loggedIn) {
       router.push("/login");
-    } else {
+    } else if (!authState.all_profiles_fetched) {
       dispatch(getAllUsers());
     }
-  }, [authState.loggedIn, dispatch, router]);
+  }, [
+    authState.all_profiles_fetched,
+    authState.loggedIn,
+    dispatch,
+    router,
+  ]);
 
   return (
-    <div className="Container">
+    <main className={styles.pageShell}>
       <div className={styles.homeContainer}>
-        <div className={styles.homeContainer__leftBar}>
-          <div
-            onClick={() => {
-              router.push("/dashboard");
-            }}
+        <aside className={styles.homeContainer__leftBar}>
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard")}
             className={styles.sideBarOption}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-            <p>Scroll</p>
-          </div>
+            <span className={styles.sideBarLabel}>Feed</span>
+            <p>Trusted updates from your network</p>
+          </button>
 
-          <div
-            onClick={() => {
-              router.push("/discover");
-            }}
+          <button
+            type="button"
+            onClick={() => router.push("/discover")}
             className={styles.sideBarOption}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
+            <span className={styles.sideBarLabel}>Discover</span>
+            <p>Find people worth following and learning from</p>
+          </button>
 
-            <p>Discover</p>
-          </div>
-          <div
-            onClick={() => {
-              router.push("/my_connections");
-            }}
+          <button
+            type="button"
+            onClick={() => router.push("/my_connections")}
             className={styles.sideBarOption}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-            </svg>
+            <span className={styles.sideBarLabel}>Connections</span>
+            <p>Manage requests and keep your circle healthy</p>
+          </button>
+        </aside>
 
-            <p>My Connections</p>
+        <section className={styles.homeContainer__feedContainer}>{children}</section>
+
+        <aside className={styles.homeContainer__extraContainer}>
+          <div className={styles.panelHeader}>
+            <span>People to notice</span>
+            <h3>Top Profiles</h3>
           </div>
-        </div>
 
-        <div className={styles.homeContainer__feedContainer}>{children}</div>
-        <div className={styles.homeContainer__extraContainer}>
-          <h3>Top Profiles</h3>
-
-          {authState.all_users?.map((profile) => {
-            return (
-              <div key={profile._id} className={styles.extraContainer_profile}>
-                <p>{profile.userId?.name}</p>
+          <div className={styles.topProfiles}>
+            {authState.all_users?.slice(0, 6).map((profile) => (
+              <div
+                key={profile._id}
+                className={styles.extraContainer_profile}
+                onClick={() => router.push(`/view_profile/${profile.userId?.username}`)}
+              >
+                <img
+                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/uploads/${profile.userId?.profilePicture}`}
+                  alt={profile.userId?.name}
+                />
+                <div>
+                  <p>{profile.userId?.name}</p>
+                  <span>@{profile.userId?.username}</span>
+                </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </aside>
       </div>
 
-      <div className={styles.mobileNavBar}>
-        <div
+      <nav className={styles.mobileNavBar}>
+        <button
+          type="button"
           className={styles.singleNavItemHolder_mobileview}
-          onClick={() => {
-            router.push("/dashboard");
-          }}
+          onClick={() => router.push("/dashboard")}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-            />
-          </svg>
-        </div>
-        <div
+          Feed
+        </button>
+        <button
+          type="button"
           className={styles.singleNavItemHolder_mobileview}
-          onClick={() => {
-            router.push("/discover");
-          }}
+          onClick={() => router.push("/discover")}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </div>
-        <div
+          Discover
+        </button>
+        <button
+          type="button"
           className={styles.singleNavItemHolder_mobileview}
-          onClick={() => {
-            router.push("/my_connections");
-          }}
+          onClick={() => router.push("/my_connections")}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-            />
-          </svg>
-        </div>
-      </div>
-    </div>
+          Connections
+        </button>
+      </nav>
+    </main>
   );
 }
 
