@@ -11,6 +11,7 @@ const app = express();
 
 const allowedOrigins = [
   process.env.Frontend_URL,
+  "https://hatchhub.vercel.app",
   "http://localhost:3000", // for local dev
 ].filter(Boolean); // remove undefined/null entries
 
