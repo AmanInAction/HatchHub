@@ -25,8 +25,7 @@ export const createPost = createAsyncThunk(
     const { file, body } = userData;
 
     try {
-      console.log(file);
-      console.log(body);
+
       const formData = new FormData();
       formData.append("body", body);
       if (file) formData.append("media", file);
@@ -53,8 +52,10 @@ export const deletePost = createAsyncThunk(
     try {
       const response = await clientServer.delete("/delete_post", {
         data: {
-          token: localStorage.getItem("token"),
           postId,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 

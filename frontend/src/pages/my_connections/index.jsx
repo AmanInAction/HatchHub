@@ -18,11 +18,6 @@ function MyConnectionsPage() {
     dispatch(getMyConnectionRequests({ token: localStorage.getItem("token") }));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (authState.connectionRequest.length != 0) {
-      console.log(authState.connectionRequest);
-    }
-  }, [authState.connectionRequest]);
   return (
     <UserLayout>
       <DashboardLayout>

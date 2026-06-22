@@ -60,7 +60,7 @@ export default function ViewProfilePage({ userProfile }) {
       if (
         authState.connectionRequest.find(
           (user) => user.userId._id === userProfile?.userId?._id
-        ).status_accepted === null
+        ).status_accepted === false
       ) {
         setIsConnectionNull(false);
       }

@@ -20,7 +20,9 @@ export const loginUser = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(response.data.token);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -43,7 +45,9 @@ export const registerUser = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(response.data.token);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -60,7 +64,9 @@ export const getAboutUser = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -73,7 +79,9 @@ export const getAllUsers = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -91,7 +99,9 @@ export const sendConnectionRequest = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -107,7 +117,9 @@ export const getConnectionRequest = createAsyncThunk(
       });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -123,7 +135,9 @@ export const getMyConnectionRequests = createAsyncThunk(
       });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );
@@ -137,8 +151,12 @@ export const acceptConnection = createAsyncThunk(
         connectionId: user.connectionId,
         action_type: user.action_type,
       });
+
+      return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || "Network error"
+      );
     }
   }
 );

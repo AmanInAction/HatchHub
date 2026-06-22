@@ -30,7 +30,7 @@ function ProfilePage() {
 
   const [inputData, setInputData] = useState({
     company: "",
-    postion: "",
+    position: "",
     years: "",
   });
 
@@ -92,7 +92,7 @@ function ProfilePage() {
     await clientServer.post("/update_profile_data", {
       token: localStorage.getItem("token"),
       bio: userProfile.bio,
-      currerntPost: userProfile.currentPost,
+      currentPosition: userProfile.currentPosition,
       pastWork: userProfile.pastWork,
       education: userProfile.education,
     });

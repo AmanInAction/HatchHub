@@ -19,7 +19,7 @@ function LoginComponent() {
   const [isLogin, setIsLogin] = useState(false);
 
   const handleRegister = () => {
-    console.log("registering...");
+
     dispatch(
       registerUser({
         username,
@@ -42,11 +42,11 @@ function LoginComponent() {
     if (authState.loggedIn) {
       router.push("/dashboard");
     }
-  }, [authState.loggedIn]);
+  }, [authState.loggedIn, router]);
 
   useEffect(() => {
     dispatch(emptyMessage());
-  }, [isLogin]);
+  }, [isLogin, dispatch]);
   return (
     <UserLayout>
       <div className={styles.container}>
@@ -92,7 +92,7 @@ function LoginComponent() {
               />
               <input
                 className={styles.inputField}
-                type="text"
+                type="password"
                 placeholder="Password"
                 onChange={(e) => {
                   setPassword(e.target.value);
