@@ -31,7 +31,7 @@ app.use(
 );
 
 // Explicitly handle preflight for all routes
-app.options("*", cors());
+app.options("{*path}", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
