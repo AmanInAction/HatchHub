@@ -15,7 +15,7 @@ import {
   MyConnectionRequests,
   getUserProfileAndUserBasedOnUsername,
 } from "../controllers/user.controller.js";
-import { get } from "mongoose";
+
 const router = Router();
 
 const storage = multer.diskStorage({
@@ -27,7 +27,17 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files are allowed"), false);
+    }
+  },
+});
 
 router
   .route("/update_profile_picture")

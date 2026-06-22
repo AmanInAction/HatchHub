@@ -5,7 +5,7 @@ import Profile from "../models/profile.model.js";
 import ConnectionRequest from "../models/connections.model.js";
 import PDFDocument from "pdfkit";
 import fs from "fs";
-import { profile } from "console";
+
 
 const convertUserDataToPDF = (userData) => {
   return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ const convertUserDataToPDF = (userData) => {
 
       doc.fontSize(20).text("Past Work");
       (userData.pastWork || []).forEach((work) => {
-        doc.fontSize(15).text(`Company Name:  ${work.companyName || "N/A"}`);
+        doc.fontSize(15).text(`Company Name:  ${work.company || "N/A"}`);
         doc.fontSize(15).text(`Position:  ${work.position || "N/A"}`);
         doc.fontSize(15).text(`Years:  ${work.years || "N/A"}`);
       });
@@ -84,14 +84,17 @@ export const register = async (req, res, next) => {
       email,
       password: hashedPassword,
     });
+    // Generate a login token so the user is immediately signed in
+    const token = crypto.randomBytes(32).toString("hex");
+    newUser.token = token;
     await newUser.save();
     // create profile for user
-    const profile = new Profile({ userId: newUser._id });
-    await profile.save();
+    const newProfile = new Profile({ userId: newUser._id });
+    await newProfile.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully", token });
   } catch (error) {
-    res.status(500).json({ message: "Server Error" || error.message });
+    res.status(500).json({ message: error.message || "Server Error" });
   }
 };
 
@@ -127,6 +130,9 @@ export const login = async (req, res) => {
 export const uploadProfilePicture = async (req, res) => {
   const { token } = req.body;
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file provided" });
+    }
     // Find user by token
     const user = await User.findOne({ token: token });
     // If user not found, return error
@@ -153,16 +159,19 @@ export const updateUserProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const { username, email } = newUserData;
+    // Whitelist only safe fields to prevent mass-assignment
+    const { name, username, email } = newUserData;
 
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
-    if (existingUser) {
-      if (existingUser._id.toString() !== user._id.toString()) {
+    if (username || email) {
+      const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+      if (existingUser && existingUser._id.toString() !== user._id.toString()) {
         return res.status(400).json({ message: "User already exists!" });
       }
     }
 
-    Object.assign(user, newUserData);
+    if (name !== undefined) user.name = name;
+    if (username !== undefined) user.username = username;
+    if (email !== undefined) user.email = email;
     await user.save();
 
     res.status(200).json({ message: "User profile updated successfully" });
@@ -217,8 +226,16 @@ export const updateProfileData = async (req, res) => {
     }
 
     const profile_to_update = await Profile.findOne({ userId: user._id });
+    if (!profile_to_update) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
 
-    Object.assign(profile_to_update, newProfileData);
+    // Whitelist only safe profile fields
+    const { bio, currentPosition, pastWork, education } = newProfileData;
+    if (bio !== undefined) profile_to_update.bio = bio;
+    if (currentPosition !== undefined) profile_to_update.currentPosition = currentPosition;
+    if (pastWork !== undefined) profile_to_update.pastWork = pastWork;
+    if (education !== undefined) profile_to_update.education = education;
     await profile_to_update.save();
 
     res.status(200).json({ message: "Profile updated successfully" });
@@ -257,7 +274,10 @@ export const downloadProfile = async (req, res) => {
 
     const filePath = `uploads/${outputPath}`;
     if (fs.existsSync(filePath)) {
-      return res.download(filePath, "resume.pdf");
+      return res.download(filePath, "resume.pdf", () => {
+        // Clean up the generated PDF after download
+        fs.unlink(filePath, () => {});
+      });
     } else {
       return res.status(404).json({ message: "PDF not found" });
     }
@@ -276,19 +296,27 @@ export const sendConnectionRequest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Prevent self-connection
+    if (user._id.toString() === targetUserId) {
+      return res.status(400).json({ message: "Cannot connect with yourself" });
+    }
+
     const connectionUser = await User.findOne({ _id: targetUserId });
     if (!connectionUser) {
       return res.status(404).json({ message: "Target user not found" });
     }
 
+    // Check both directions for existing requests
     const existingRequest = await ConnectionRequest.findOne({
-      userId: user._id,
-      connectionId: targetUserId,
+      $or: [
+        { userId: user._id, connectionId: targetUserId },
+        { userId: targetUserId, connectionId: user._id },
+      ],
     });
     if (existingRequest) {
       return res
         .status(400)
-        .json({ message: "Connection request already sent" });
+        .json({ message: "Connection request already exists" });
     }
 
     const newConnectionRequest = new ConnectionRequest({
@@ -342,7 +370,7 @@ export const MyConnectionRequests = async (req, res) => {
 };
 
 export const respondToConnectionRequest = async (req, res) => {
-  const { token, connectionId, action_type } = req.body;
+  const { token, connectionId: requestId, action_type } = req.body;
 
   try {
     const user = await User.findOne({ token: token });
@@ -351,7 +379,7 @@ export const respondToConnectionRequest = async (req, res) => {
     }
 
     const connection = await ConnectionRequest.findOne({
-      _id: connectionId,
+      _id: requestId,
       connectionId: user._id,
     });
 
@@ -366,7 +394,7 @@ export const respondToConnectionRequest = async (req, res) => {
     } else if (action_type === false) {
       connection.status_accepted = false;
       await connection.save();
-      await ConnectionRequest.deleteOne({ _id: connectionId });
+      await ConnectionRequest.deleteOne({ _id: requestId });
       return res.status(200).json({ message: "Connection request rejected" });
     } else {
       return res.status(400).json({ message: "Invalid action type" });

@@ -30,15 +30,12 @@ const PORT = process.env.PORT || 8080;
 app.use("/", postRoutes);
 app.use("/", userRoutes);
 
-//Test Route
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+
 
 //MongoDB Connection
 const start = async () => {
   try {
-    const connect = mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

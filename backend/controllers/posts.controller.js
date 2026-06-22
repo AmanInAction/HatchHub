@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import Profile from "../models/profile.model.js";
-import bcrypt from "bcryptjs";
+
 import Post from "../models/posts.model.js";
 import Comment from "../models/comments.model.js";
 
@@ -78,9 +78,14 @@ export const getAllPosts = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-  const { token, postId } = req.body;
+  const { postId } = req.body;
   try {
-    const user = await User.findOne({ token: token }).select("_id");
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const token = authHeader.split(" ")[1];
+    const user = await User.findOne({ token }).select("_id");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -144,7 +149,7 @@ export const get_comments_by_post = async (req, res) => {
 
   try {
     const post = await Post.findById(post_id);
-    console.log(post);
+
     if (!post) {
       return res.status(404).json({ message: "Post not found!" });
     }
@@ -159,10 +164,15 @@ export const get_comments_by_post = async (req, res) => {
 };
 
 export const delete_comment_of_user = async (req, res) => {
-  const { token, postId, commentId } = req.body;
-
   try {
-    const user = await User.findOne({ token: token }).select("_id");
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const token = authHeader.split(" ")[1];
+    const { postId, commentId } = req.body;
+
+    const user = await User.findOne({ token }).select("_id");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -172,7 +182,7 @@ export const delete_comment_of_user = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    const comment = post.comments.id(commentId);
+    const comment = await Comment.findOne({ _id: commentId, postId });
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
@@ -182,7 +192,6 @@ export const delete_comment_of_user = async (req, res) => {
     }
 
     await Comment.deleteOne({ _id: commentId });
-    await post.save();
 
     return res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {

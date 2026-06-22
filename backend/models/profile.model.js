@@ -26,7 +26,7 @@ const workSchema = new Schema({
   },
   years: {
     type: String,
-    default: 0,
+    default: "",
   },
 });
 
@@ -40,7 +40,7 @@ const profileSchema = new Schema({
     type: String,
     default: "",
   },
-  currentPost: {
+  currentPosition: {
     type: String,
     default: "",
   },
