@@ -46,7 +46,7 @@ function DiscoverPage() {
                     />
                     <div>
                       <h2>{user.userId?.name}</h2>
-                      <p style={{ color: "gray" }}>@{user.userId?.username}</p>
+                      <p>@{user.userId?.username}</p>
                     </div>
                   </div>
                 );

@@ -1,19 +1,30 @@
+/* ═══════════════════════════════════════
+   Discover — Dark Glass Cards
+   ═══════════════════════════════════════ */
+
 .page {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 
 .headerCard {
   padding: 1.5rem;
   border-radius: 26px;
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 18px 50px rgba(77, 88, 79, 0.08);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+}
+
+.headerCard h1 {
+  color: var(--text-primary);
 }
 
 .headerCard p {
-  color: #647469;
+  color: var(--text-secondary);
   line-height: 1.7;
   margin-top: 0.6rem;
 }
@@ -29,11 +40,31 @@
   gap: 1rem;
   padding: 1.15rem;
   align-items: center;
-  border-radius: 24px;
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 18px 42px rgba(77, 88, 79, 0.08);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
   cursor: pointer;
+  transition: all 0.28s var(--ease-out);
+}
+
+.userCard:hover {
+  border-color: rgba(124, 58, 237, 0.25);
+  background: var(--bg-card-hover);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 24px var(--accent-glow);
+}
+
+.userCard h2 {
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.userCard p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .userCard_image {
@@ -42,4 +73,11 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 2px solid rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 16px var(--accent-glow);
+  transition: box-shadow 0.3s var(--ease-out);
+}
+
+.userCard:hover .userCard_image {
+  box-shadow: 0 0 24px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }

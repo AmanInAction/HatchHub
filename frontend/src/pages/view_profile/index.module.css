@@ -1,14 +1,20 @@
+/* ═══════════════════════════════════════
+   View Profile — Dark Glass
+   ═══════════════════════════════════════ */
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 
+/* ── Banner ── */
 .backDropContainer {
   width: 100%;
   min-height: 280px;
   background:
-    linear-gradient(140deg, rgba(36, 70, 56, 0.82), rgba(111, 143, 119, 0.45)),
+    linear-gradient(140deg, rgba(124, 58, 237, 0.5), rgba(6, 182, 212, 0.3)),
     url("https://images.pexels.com/photos/298723/pexels-photo-298723.jpeg");
   background-size: cover;
   background-position: center;
@@ -25,16 +31,28 @@
   position: absolute;
   bottom: 1.5rem;
   left: 1.5rem;
-  border: 5px solid rgba(246, 242, 234, 0.96);
+  border: 4px solid rgba(10, 14, 23, 0.8);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
+/* ── Details + Work History ── */
 .profileContainer_details,
 .workHistory {
   padding: 1.5rem;
   border-radius: 28px;
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 18px 48px rgba(77, 88, 79, 0.08);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+
+.profileContainer_details:hover,
+.workHistory:hover {
+  border-color: rgba(124, 58, 237, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 0 30px var(--accent-glow);
 }
 
 .profileContainer__flex {
@@ -50,45 +68,105 @@
   flex-wrap: wrap;
 }
 
+.identityRow h2 {
+  color: var(--text-primary);
+}
+
+.identityRow p {
+  color: var(--text-muted);
+}
+
+/* Bio text */
+.profileContainer__flex > div:first-child > div:last-child p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-top: 0.8rem;
+}
+
+/* ── Buttons ── */
 .connectButton,
 .connectedButton,
 .downloadButton {
   border: none;
-  padding: 0.8rem 1rem;
-  border-radius: 999px;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius-pill);
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.28s var(--ease-out);
 }
 
 .connectButton {
-  background: linear-gradient(135deg, #234638, #3e6a56);
-  color: #f7f4ef;
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.connectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }
 
 .connectedButton {
-  background: #eef2ec;
-  color: #244638;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.connectedButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
 }
 
 .downloadButton {
-  background: #f3ece2;
-  color: #294033;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
+.downloadButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ── Activity ── */
 .activityColumn {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 }
 
+.activityColumn h4 {
+  color: var(--text-primary);
+}
+
 .postCard,
 .workHistoryCard {
   padding: 1rem;
   border-radius: 22px;
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  background: #f8f4ee;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.28s var(--ease-out);
+}
+
+.postCard:hover,
+.workHistoryCard:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.postCard p {
+  color: var(--text-secondary);
+}
+
+.workHistoryCard p {
+  color: var(--text-secondary);
 }
 
 .card {
@@ -103,13 +181,18 @@
   overflow: hidden;
   border-radius: 0.9rem;
   flex-shrink: 0;
-  background: #e8e2d8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
 }
 
 .card_profileContainer img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.workHistory h3 {
+  color: var(--text-primary);
 }
 
 .workHistoryContainer {

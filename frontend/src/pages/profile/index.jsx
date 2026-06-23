@@ -174,7 +174,7 @@ function ProfilePage() {
                       }}
                     />
 
-                    <p style={{ color: "#7a887e" }}>
+                    <p style={{ color: "var(--text-muted)" }}>
                       @{userProfile?.userId?.username}
                     </p>
                   </div>

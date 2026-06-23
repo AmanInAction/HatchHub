@@ -56,7 +56,7 @@ function LoginComponent() {
               {isLogin ? "Sign In" : "Sign Up"}
             </p>
 
-            <p style={{ color: authState.isError ? "#a14a39" : "#32624b" }}>
+            <p style={{ color: authState.isError ? "#f87171" : "#34d399" }}>
               {authState.message}
             </p>
 

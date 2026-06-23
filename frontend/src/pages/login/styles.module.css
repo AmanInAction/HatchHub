@@ -1,3 +1,7 @@
+/* ═══════════════════════════════════════
+   Login / Register — Dark Glass Card
+   ═══════════════════════════════════════ */
+
 .container {
   min-height: calc(100vh - 120px);
   display: flex;
@@ -13,9 +17,12 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
   border-radius: 32px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  box-shadow: 0 28px 80px rgba(73, 83, 73, 0.12);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: var(--shadow-card);
+  animation: fadeInUp 0.6s var(--ease-out) both;
 }
 
 .cardContainer_left,
@@ -30,19 +37,44 @@
 }
 
 .cardContainer_right {
-  background:
-    radial-gradient(circle at top, rgba(190, 209, 194, 0.18), transparent 40%),
-    linear-gradient(160deg, #1f352c, #365847);
-  color: #f5f0e7;
+  background: var(--accent-gradient);
+  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow orb inside the accent panel */
+.cardContainer_right::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: -60px;
+  right: -60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.cardContainer_right p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cardContainer_right h2 {
+  color: #fff;
+  font-size: 1.6rem;
 }
 
 .cardLeftHeading {
+  font-family: "Outfit", sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
-  color: #1d342a;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .inputContainers {
@@ -63,24 +95,43 @@
   width: 100%;
   padding: 0.95rem 1rem;
   outline: none;
-  border-radius: 18px;
-  border: 1px solid rgba(121, 137, 124, 0.18);
-  background: #f7f4ef;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  transition: all 0.25s var(--ease-out);
+}
+
+.inputField::placeholder {
+  color: var(--text-muted);
+}
+
+.inputField:focus {
+  border-color: var(--accent-start);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
 .button {
   margin-top: 0.5rem;
   border: none;
-  border-radius: 999px;
-  color: #f9f9f9;
+  border-radius: var(--radius-pill);
+  color: #fff;
   font-size: 1rem;
-  background: linear-gradient(135deg, #234638, #3e6a56);
+  background: var(--accent-gradient);
   font-weight: 600;
   cursor: pointer;
   padding: 0.95rem 1.1rem;
   width: fit-content;
   min-width: 160px;
   text-align: center;
+  box-shadow: 0 8px 24px var(--accent-glow);
+  transition: all 0.28s var(--ease-out);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }
 
 @media (max-width: 760px) {

@@ -54,7 +54,7 @@ function MyConnectionsPage() {
                     </div>
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
-                      <h3 style={{ color: "gray" }}>{user.userId.username}</h3>
+                      <h3>@{user.userId.username}</h3>
                     </div>
                     <button
                       type="button"
@@ -96,7 +96,7 @@ function MyConnectionsPage() {
                     </div>
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
-                      <h3 style={{ color: "gray" }}>{user.userId.username}</h3>
+                      <h3>@{user.userId.username}</h3>
                     </div>
                   </div>
                 </div>

@@ -1,43 +1,58 @@
+/* ═══════════════════════════════════════
+   Dashboard Feed — Dark Glass
+   ═══════════════════════════════════════ */
+
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 
+/* ── Hero Banner ── */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.9fr);
   gap: 1rem;
   padding: 1.75rem;
-  border: 1px solid rgba(110, 126, 112, 0.14);
+  border: 1px solid var(--border-subtle);
   border-radius: 28px;
   background:
-    radial-gradient(circle at top left, rgba(146, 171, 150, 0.22), transparent 38%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(244, 240, 233, 0.96));
-  box-shadow: 0 22px 70px rgba(70, 80, 71, 0.08);
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.12), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(6, 182, 212, 0.08), transparent 40%),
+    var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
 }
 
 .hero h1 {
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1.02;
   max-width: 12ch;
-  color: #193126;
+  color: var(--text-primary);
+  text-shadow: 0 0 40px var(--accent-glow);
 }
 
 .heroEyebrow,
 .modalEyebrow {
   margin-bottom: 0.55rem;
-  color: #5d7062;
   font-size: 0.82rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
 }
 
 .heroText {
   margin-top: 1rem;
   max-width: 58ch;
-  color: #526257;
+  color: var(--text-secondary);
   line-height: 1.7;
 }
 
@@ -49,24 +64,28 @@
   gap: 0.75rem;
   padding: 1.25rem;
   border-radius: 22px;
-  background: rgba(24, 49, 38, 0.92);
-  color: #f4efe7;
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 12px 40px var(--accent-glow);
+  transition: all 0.3s var(--ease-out);
 }
 
 .heroStatCard span {
-  color: rgba(244, 239, 231, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .heroStatCard strong {
   font-size: 3rem;
   line-height: 1;
+  color: #fff;
 }
 
 .heroStatCard p {
-  color: rgba(244, 239, 231, 0.74);
+  color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
 }
 
+/* ── Compose Card ── */
 .feedGrid {
   width: 100%;
 }
@@ -74,10 +93,12 @@
 .composeCard,
 .postCard,
 .allCommentsContainer {
-  border: 1px solid rgba(110, 126, 112, 0.12);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 22px 55px rgba(77, 88, 79, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
 }
 
 .composeCard {
@@ -85,7 +106,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.2rem 1.3rem;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: all 0.3s var(--ease-out);
 }
 
 .composeHeader,
@@ -109,8 +130,9 @@
   min-width: 110px;
   padding: 0.8rem 0.95rem;
   border-radius: 18px;
-  background: #f4efe7;
-  color: #284034;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
   text-align: right;
 }
 
@@ -119,7 +141,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #77857a;
+  color: var(--text-muted);
 }
 
 .composeQuickStat strong {
@@ -135,31 +157,37 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 2px solid rgba(124, 58, 237, 0.2);
 }
 
 .composeTitle {
   font-weight: 600;
-  color: #1e352b;
+  color: var(--text-primary);
 }
 
 .composeSubtitle {
-  color: #708174;
+  color: var(--text-secondary);
   line-height: 1.5;
   font-size: 0.95rem;
 }
 
+/* ── Textarea ── */
 .textAreaOfContent {
   width: 100%;
   min-height: 5.5rem;
   padding: 1rem 1.05rem;
   border-radius: 20px;
-  border: 1px solid rgba(121, 137, 124, 0.18);
-  background: #f7f4ef;
-  font: inherit;
-  color: #21372d;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  color: var(--text-primary);
   line-height: 1.6;
   resize: vertical;
   outline: none;
+  transition: all 0.25s var(--ease-out);
+}
+
+.textAreaOfContent::placeholder {
+  color: var(--text-muted);
 }
 
 .composeRow {
@@ -171,10 +199,12 @@
 
 .textAreaOfContent:focus,
 .postCommentContainer input:focus {
-  border-color: rgba(51, 110, 75, 0.4);
-  box-shadow: 0 0 0 4px rgba(92, 141, 113, 0.1);
+  border-color: var(--accent-start);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
+/* ── Action Buttons ── */
 .composeActions {
   display: flex;
   flex-direction: column;
@@ -191,7 +221,7 @@
 .closeButton {
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition: all 0.25s var(--ease-out);
 }
 
 .attachButton {
@@ -202,9 +232,16 @@
   min-width: 0;
   min-height: 52px;
   padding: 0.85rem 1rem;
-  border-radius: 999px;
-  background: #f0ece4;
-  color: #2f483c;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.attachButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(124, 58, 237, 0.2);
+  color: var(--text-primary);
 }
 
 .attachButton svg,
@@ -225,17 +262,26 @@
 .postCommentContainer_btn {
   min-height: 52px;
   padding: 0.9rem 1.3rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #244638, #3d6d58);
-  color: #f7f4ef;
+  border-radius: var(--radius-pill);
+  background: var(--accent-gradient);
+  color: #fff;
   font-weight: 600;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.uploadButton:hover,
+.postCommentContainer_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }
 
 .uploadButton:disabled {
-  opacity: 0.45;
+  opacity: 0.35;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
+/* ── Posts Feed ── */
 .postsContainer {
   display: flex;
   flex-direction: column;
@@ -248,7 +294,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.35rem;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition: all 0.3s var(--ease-out);
 }
 
 .postHeader {
@@ -267,26 +313,34 @@
 
 .postAuthor {
   font-weight: 600;
-  color: #1f342a;
+  color: var(--text-primary);
 }
 
 .postHandle,
 .postDate,
 .commentHandle {
-  color: #758478;
+  color: var(--text-muted);
   font-size: 0.92rem;
 }
 
 .closeButton {
   padding: 0.7rem 1rem;
-  border-radius: 999px;
-  background: #f5ebe7;
-  color: #8e493a;
+  border-radius: var(--radius-pill);
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  font-weight: 500;
+}
+
+.closeButton:hover {
+  background: rgba(239, 68, 68, 0.18);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
 }
 
 .postBody,
 .commentBody {
-  color: #415247;
+  color: var(--text-secondary);
   line-height: 1.72;
   word-break: break-word;
 }
@@ -296,7 +350,8 @@
   border-radius: 22px;
   overflow: hidden;
   aspect-ratio: 16 / 10;
-  background: #e8e2d8;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
 }
 
 .mediaFrame img {
@@ -305,6 +360,7 @@
   object-fit: cover;
 }
 
+/* ── Post Actions (Like, Share, Comment) ── */
 .optionsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -316,9 +372,18 @@
   align-items: center;
   gap: 0.55rem;
   padding: 0.8rem 1rem;
-  border-radius: 999px;
-  background: #f7f4ef;
-  color: #385344;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.optionButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(124, 58, 237, 0.25);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .optionButton:disabled {
@@ -326,21 +391,30 @@
   cursor: default;
 }
 
-.optionButtonActive {
-  background: rgba(49, 93, 69, 0.12);
-  color: #234c37;
+.optionButton:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
+.optionButtonActive {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.3);
+  color: #a78bfa;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* ── Comments Modal ── */
 .commentsContainer {
   position: fixed;
   inset: 0;
   padding: 1.5rem;
-  background: rgba(21, 29, 24, 0.58);
+  background: rgba(5, 8, 14, 0.7);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .allCommentsContainer {
@@ -350,6 +424,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  animation: fadeInUp 0.35s var(--ease-out) both;
 }
 
 .commentModalHeader {
@@ -368,17 +443,18 @@
 .singleComment {
   padding: 1rem;
   border-radius: 18px;
-  background: #f7f4ef;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
 }
 
 .commentAuthor {
   font-weight: 600;
-  color: #1f342a;
+  color: var(--text-primary);
 }
 
 .emptyComments,
 .placeholderState {
-  color: #66756b;
+  color: var(--text-muted);
   text-align: center;
   padding: 2rem;
 }
@@ -393,29 +469,33 @@
   min-width: 0;
   padding: 0.95rem 1rem;
   border-radius: 18px;
-  border: 1px solid rgba(121, 137, 124, 0.18);
-  background: #f7f4ef;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
   outline: none;
   font: inherit;
+  color: var(--text-primary);
+  transition: all 0.25s var(--ease-out);
 }
 
+.postCommentContainer input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Hover Effects ── */
 .hero:hover,
-.heroStatCard:hover,
 .composeCard:hover,
 .postCard:hover {
+  border-color: rgba(124, 58, 237, 0.15);
   transform: translateY(-3px);
-  box-shadow: 0 28px 70px rgba(77, 88, 79, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 0 30px var(--accent-glow);
 }
 
-.attachButton:hover,
-.uploadButton:hover,
-.optionButton:hover,
-.postCommentContainer_btn:hover,
-.closeButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(52, 74, 62, 0.14);
+.heroStatCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px var(--accent-glow), 0 0 50px var(--accent-glow-cyan);
 }
 
+/* ── Responsive ── */
 @media (max-width: 1024px) {
   .hero {
     grid-template-columns: 1fr;

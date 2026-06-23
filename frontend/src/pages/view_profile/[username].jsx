@@ -85,7 +85,7 @@ export default function ViewProfilePage({ userProfile }) {
               <div style={{ flex: "0.8" }}>
                 <div className={styles.identityRow}>
                   <h2>{userProfile?.userId?.name}</h2>
-                  <p style={{ color: "#7a887e" }}>
+                  <p style={{ color: "var(--text-muted)" }}>
                     @{userProfile?.userId?.username}
                   </p>
                 </div>
