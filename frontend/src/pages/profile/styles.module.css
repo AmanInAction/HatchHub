@@ -1,174 +1,402 @@
+/* ═══════════════════════════════════════
+   Profile Page — Dark Glass
+   ═══════════════════════════════════════ */
+
 .container {
-  padding: 1.1rem;
-  background: rgb(242, 241, 241);
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 
+.sectionEyebrow {
+  margin-bottom: 0.45rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* ── Banner ── */
 .backDropContainer {
   width: 100%;
-  height: 30vh;
-  background: url("https://images.pexels.com/photos/298723/pexels-photo-298723.jpeg");
+  min-height: 280px;
+  background:
+    linear-gradient(140deg, rgba(124, 58, 237, 0.5), rgba(6, 182, 212, 0.3)),
+    url("https://images.pexels.com/photos/298723/pexels-photo-298723.jpeg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
-  border-radius: 20px;
+  border-radius: 28px;
+  overflow: hidden;
 }
 
-.backDropContainer img {
-  width: 10em;
-  height: 10em;
+.backDropContainer img,
+.backdrop_overlay {
+  width: clamp(110px, 18vw, 160px);
+  height: clamp(110px, 18vw, 160px);
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
-  bottom: -30%;
-  left: 2%;
+  bottom: 1.5rem;
+  left: 1.5rem;
 }
 
-.profileContainer_details {
-  padding-top: 5.6rem;
-}
-
-.card {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-}
-
-.card_profileContainer {
-  width: 3.4rem;
-  height: 3.4rem;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
+.backDropContainer img {
+  border: 4px solid rgba(10, 14, 23, 0.8);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
 .backdrop_overlay {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
   color: white;
+  background: rgba(10, 14, 23, 0.3);
   opacity: 0;
-  width: 10em;
-  height: 10em;
-  border-radius: 50%;
-  object-fit: cover;
-  position: absolute;
-  bottom: -30%;
-  left: 2%;
+  transition: opacity 0.25s var(--ease-out);
   z-index: 4;
-  transition: all 0.2s ease-in-out;
-}
-.backdrop_overlay > svg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
-  height: 20%;
 }
 
 .backdrop_overlay:hover {
-  background: rgba(0, 0, 0, 0.5);
   opacity: 1;
   cursor: pointer;
 }
 
-.workHistoryContainer {
+/* ── Profile Details Card ── */
+.profileContainer_details {
+  margin-top: -0.5rem;
+  padding: 1.6rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.identityRow {
   display: flex;
-  gap: 1.4rem;
-  padding-top: 1.4rem;
-  width: 100%;
+  align-items: center;
+  gap: 0.8rem;
   flex-wrap: wrap;
 }
 
-.workHistoryCard {
-  min-width: fit-content;
-  padding-inline: 2.5rem;
-  padding-block: 2rem;
-  border-radius: 12px;
-  box-shadow: 10px 10px 15px rgb(173, 173, 173);
-  width: fit-content;
+/* ── Inputs ── */
+.editName,
+.bioTextarea,
+.inputField {
+  width: 100%;
+  outline: none;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  transition: all 0.25s var(--ease-out);
 }
 
-.profileContainer_details input {
-  outline: none;
-  border-style: none;
-  padding-inline: 10px;
-  padding-block: 9px;
-  box-shadow: 2px 2px 5px rgb(173, 173, 173);
+.editName::placeholder,
+.bioTextarea::placeholder,
+.inputField::placeholder {
+  color: var(--text-muted);
+}
+
+.editName:focus,
+.bioTextarea:focus,
+.inputField:focus {
+  border-color: var(--accent-start);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.editName,
+.inputField {
+  padding: 0.9rem 1rem;
+}
+
+.editName {
+  max-width: 320px;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .bioTextarea {
-  border: none;
-  outline: none;
-  margin-top: 2px;
-  padding-inline: 10px;
-  padding-block: 9px;
-  font-family: "Poppins", sans-serif !important;
-  font-size: 1.1rem;
-  width: 100%;
+  margin-top: 1rem;
+  min-height: 140px;
+  padding: 1rem;
+  resize: vertical;
 }
 
-.nameEdit {
-  font-size: 1.5rem;
-  font-weight: bold;
+/* ── Cards ── */
+.postCard,
+.workHistoryCard,
+.managedPostCard,
+.emptyPostState {
+  padding: 1rem;
+  border-radius: 22px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.28s var(--ease-out);
 }
-.connectionButton {
-  margin-top: 1.4rem;
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card p {
+  color: var(--text-secondary);
+}
+
+.card_profileContainer {
+  width: 3.4rem;
+  height: 3.4rem;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+}
+
+.card_profileContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activityColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.activityColumn h4 {
+  color: var(--text-primary);
+}
+
+/* ── Work History ── */
+.workHistory {
+  padding: 1.5rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+
+.workHistory h3 {
+  color: var(--text-primary);
+}
+
+.workHistoryContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.workHistoryCard p {
+  color: var(--text-secondary);
+}
+
+/* ── Buttons ── */
+.connectionButton,
+.addworkBtn,
+.secondaryButton,
+.deleteButton {
+  margin-top: 1rem;
   width: fit-content;
-  padding-inline: 1.4rem;
-  padding-block: 0.6rem;
-  background-color: #0073b1;
-  color: white;
-  border-radius: 5px;
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: var(--radius-pill);
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.28s var(--ease-out);
+}
+
+.connectionButton {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.connectionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }
 
 .addworkBtn {
-  margin-top: 1rem;
-  background: whitesmoke;
-  padding-inline: 1.3rem;
-  padding-block: 1.2rem;
-  border: 1px dotted silver;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 1px 1px 2px gray;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
 }
 
+.addworkBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.deleteButton {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.deleteButton:hover {
+  background: rgba(239, 68, 68, 0.18);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ── Post Manager ── */
+.postManager {
+  padding: 1.5rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+
+.postManagerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.postCount {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.managedPostMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  margin-bottom: 0.9rem;
+}
+
+.managedPostBody {
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.managedMediaFrame {
+  margin-top: 1rem;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+}
+
+.managedMediaFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postManagerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.emptyPostState {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ── Modal ── */
 .commentsContainer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  inset: 0;
+  padding: 1rem;
+  background: rgba(5, 8, 14, 0.7);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .allCommentsContainer {
-  position: relative;
-  width: 60vw; /* fixed width */
-  height: fit-content; /* fixed height */
-  max-height: 80vh; /* allow scrolling */
-  background: white;
-  border-radius: 10px;
-  padding: 2rem;
-  overflow-y: auto;
-}
-.allCommentsContainer > input {
-  margin-top: 2px;
+  width: min(560px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.4rem;
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+  animation: fadeInUp 0.35s var(--ease-out) both;
 }
 
-.inputField {
-  width: 100%;
-  padding-inline: 1.4rem;
-  padding-block: 0.8rem;
-  outline: none;
-  border-radius: 10px;
-  border: 1px solid rgb(244, 208, 0);
+/* ── Hover Glow Effects ── */
+.profileContainer_details:hover,
+.workHistory:hover,
+.postManager:hover {
+  border-color: rgba(124, 58, 237, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 0 30px var(--accent-glow);
+}
+
+.postCard:hover,
+.workHistoryCard:hover,
+.managedPostCard:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 820px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .postManagerHeader {
+    flex-direction: column;
+  }
 }

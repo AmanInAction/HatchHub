@@ -12,15 +12,21 @@ function DiscoverPage() {
     if (!authState.all_profiles_fetched) {
       dispatch(getAllUsers());
     }
-  });
+  }, [authState.all_profiles_fetched, dispatch]);
 
   const router = useRouter();
 
   return (
     <UserLayout>
       <DashboardLayout>
-        <div>
-          <h1>Discover</h1>
+        <div className={styles.page}>
+          <div className={styles.headerCard}>
+            <h1>Discover</h1>
+            <p>
+              Browse profiles that look real, read clearly, and make it easier
+              to connect with the right people.
+            </p>
+          </div>
 
           <div className={styles.allUserProfile}>
             {authState.all_profiles_fetched &&
@@ -40,7 +46,7 @@ function DiscoverPage() {
                     />
                     <div>
                       <h2>{user.userId?.name}</h2>
-                      <p style={{ color: "gray" }}>@{user.userId?.username}</p>
+                      <p>@{user.userId?.username}</p>
                     </div>
                   </div>
                 );

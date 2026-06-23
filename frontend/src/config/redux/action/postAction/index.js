@@ -1,12 +1,15 @@
 import { clientServer } from "@/config";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { userAgent } from "next/server";
 
 export const getAllPosts = createAsyncThunk(
   "post/getAllPosts",
   async (_, thunkAPI) => {
     try {
-      const response = await clientServer.get("/posts");
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const response = await clientServer.get("/posts", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -22,8 +25,7 @@ export const createPost = createAsyncThunk(
     const { file, body } = userData;
 
     try {
-      console.log(file);
-      console.log(body);
+
       const formData = new FormData();
       formData.append("body", body);
       if (file) formData.append("media", file);
@@ -50,8 +52,10 @@ export const deletePost = createAsyncThunk(
     try {
       const response = await clientServer.delete("/delete_post", {
         data: {
-          token: localStorage.getItem("token"),
           postId,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
@@ -72,7 +76,9 @@ export const likePost = createAsyncThunk(
       });
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue("Something went wrong!!");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Something went wrong!!"
+      );
     }
   }
 );

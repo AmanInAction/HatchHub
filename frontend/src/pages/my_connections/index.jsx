@@ -16,20 +16,19 @@ function MyConnectionsPage() {
 
   useEffect(() => {
     dispatch(getMyConnectionRequests({ token: localStorage.getItem("token") }));
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (authState.connectionRequest.length != 0) {
-      console.log(authState.connectionRequest);
-    }
-  }, [authState.connectionRequest]);
   return (
     <UserLayout>
       <DashboardLayout>
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "1.7rem" }}
-        >
-          <h4>My Connections</h4>
+        <div className={styles.page}>
+          <div className={styles.headerCard}>
+            <h1>My Connections</h1>
+            <p>
+              Review pending requests and keep the people you trust close at
+              hand.
+            </p>
+          </div>
           {authState.connectionRequest.length === 0 && (
             <h2 style={{ textAlign: "center", marginTop: "2rem" }}>
               No Connection Requests
@@ -46,14 +45,7 @@ function MyConnectionsPage() {
                   className={styles.userCard}
                   key={index}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1.2rem",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <div className={styles.cardInner}>
                     <div className={styles.profilePicture}>
                       <img
                         src={`${process.env.NEXT_PUBLIC_SERVER_URL}/uploads/${user.userId.profilePicture}`}
@@ -62,9 +54,10 @@ function MyConnectionsPage() {
                     </div>
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
-                      <h3 style={{ color: "gray" }}>{user.userId.username}</h3>
+                      <h3>@{user.userId.username}</h3>
                     </div>
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         dispatch(
@@ -84,7 +77,7 @@ function MyConnectionsPage() {
               );
             })}
           {authState.connectionRequest
-            .filter((connection) => connection.status_accepted !== null)
+            .filter((connection) => connection.status_accepted === true)
             .map((user, index) => {
               return (
                 <div
@@ -94,14 +87,7 @@ function MyConnectionsPage() {
                   className={styles.userCard}
                   key={index}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1.2rem",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <div className={styles.cardInner}>
                     <div className={styles.profilePicture}>
                       <img
                         src={`${process.env.NEXT_PUBLIC_SERVER_URL}/uploads/${user.userId.profilePicture}`}
@@ -110,7 +96,7 @@ function MyConnectionsPage() {
                     </div>
                     <div className={styles.userInfo}>
                       <h3>{user.userId.name}</h3>
-                      <h3 style={{ color: "gray" }}>{user.userId.username}</h3>
+                      <h3>@{user.userId.username}</h3>
                     </div>
                   </div>
                 </div>

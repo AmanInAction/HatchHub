@@ -1,34 +1,156 @@
-.container {
-  padding: 1.2rem;
+/* ═══════════════════════════════════════
+   Navbar — Dark Glass
+   ═══════════════════════════════════════ */
+
+.shell {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 1rem 1.25rem 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 23, 0.92),
+    rgba(10, 14, 23, 0.6),
+    transparent
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .navBar {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.85rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.3s var(--ease-out);
 }
+
+.navBar:hover {
+  border-color: rgba(124, 58, 237, 0.15);
+}
+
+.brand,
+.navButton,
+.secondaryButton,
+.JoinButton {
+  border: none;
+  cursor: pointer;
+}
+
+.brand {
+  display: inline-flex;
+  gap: 0.15rem;
+  align-items: center;
+  background: transparent;
+  font-family: "Outfit", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.brand:hover {
+  transform: scale(1.04);
+}
+
+.brand span:last-child {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .navBarOptionContainer {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
-@media only screen and (max-width: 600px) {
-  .navBarOptionContainer {
-    font-size: 0.6rem;
-  }
+
+.userBadge {
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.85rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.userBadgeLabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.navButton,
+.secondaryButton,
+.JoinButton {
+  padding: 0.8rem 1.1rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.28s var(--ease-out);
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.secondaryButton {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.secondaryButton:hover {
+  background: rgba(239, 68, 68, 0.18);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
 }
 
 .JoinButton {
-  background-color: #5685fc;
-  color: white;
-  width: 120px;
-  text-align: center;
-  padding: 0.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  user-select: none;
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 24px var(--accent-glow);
 }
+
 .JoinButton:hover {
-  background-color: #007ac5;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
 }
-.JoinButton p {
-  font-weight: 500;
+
+@media only screen and (max-width: 720px) {
+  .shell {
+    padding-inline: 0.85rem;
+  }
+
+  .navBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .navBarOptionContainer {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }

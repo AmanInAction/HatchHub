@@ -10,16 +10,28 @@ dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  "https://hatchhub.vercel.app",
+  process.env.Frontend_URL,
   "http://localhost:3000", // for local dev
-];
+].filter(Boolean); // remove undefined/null entries
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
-  })
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
 );
+
+// Explicitly handle preflight for all routes
+app.options("{*path}", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -30,15 +42,12 @@ const PORT = process.env.PORT || 8080;
 app.use("/", postRoutes);
 app.use("/", userRoutes);
 
-//Test Route
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+
 
 //MongoDB Connection
 const start = async () => {
   try {
-    const connect = mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

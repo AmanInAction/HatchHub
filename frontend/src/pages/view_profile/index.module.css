@@ -1,46 +1,188 @@
+/* ═══════════════════════════════════════
+   View Profile — Dark Glass
+   ═══════════════════════════════════════ */
+
 .container {
-  padding: 1.1rem;
-  background: rgb(242, 241, 241);
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s var(--ease-out) both;
 }
 
+/* ── Banner ── */
 .backDropContainer {
   width: 100%;
-  height: 30vh;
-  background: url("https://images.pexels.com/photos/298723/pexels-photo-298723.jpeg");
+  min-height: 280px;
+  background:
+    linear-gradient(140deg, rgba(124, 58, 237, 0.5), rgba(6, 182, 212, 0.3)),
+    url("https://images.pexels.com/photos/298723/pexels-photo-298723.jpeg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
-  border-radius: 20px;
+  border-radius: 28px;
+  overflow: hidden;
 }
+
 .backDropContainer img {
-  width: 10em;
-  height: 10em;
+  width: clamp(110px, 18vw, 160px);
+  height: clamp(110px, 18vw, 160px);
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
-  bottom: -30%;
-  left: 2%;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  border: 4px solid rgba(10, 14, 23, 0.8);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
-.profileContainer_details {
-  padding-top: 5.6rem;
+/* ── Details + Work History ── */
+.profileContainer_details,
+.workHistory {
+  padding: 1.5rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s var(--ease-out);
+}
+
+.profileContainer_details:hover,
+.workHistory:hover {
+  border-color: rgba(124, 58, 237, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 0 30px var(--accent-glow);
+}
+
+.profileContainer__flex {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+  gap: 1.25rem;
+}
+
+.identityRow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.identityRow h2 {
+  color: var(--text-primary);
+}
+
+.identityRow p {
+  color: var(--text-muted);
+}
+
+/* Bio text */
+.profileContainer__flex > div:first-child > div:last-child p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-top: 0.8rem;
+}
+
+/* ── Buttons ── */
+.connectButton,
+.connectedButton,
+.downloadButton {
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.28s var(--ease-out);
+}
+
+.connectButton {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.connectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--accent-glow), 0 0 40px var(--accent-glow-cyan);
+}
+
+.connectedButton {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.connectedButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+.downloadButton {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.downloadButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(124, 58, 237, 0.25);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ── Activity ── */
+.activityColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.activityColumn h4 {
+  color: var(--text-primary);
+}
+
+.postCard,
+.workHistoryCard {
+  padding: 1rem;
+  border-radius: 22px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.28s var(--ease-out);
+}
+
+.postCard:hover,
+.workHistoryCard:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.postCard p {
+  color: var(--text-secondary);
+}
+
+.workHistoryCard p {
+  color: var(--text-secondary);
 }
 
 .card {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1rem;
 }
 
 .card_profileContainer {
   width: 3.4rem;
   height: 3.4rem;
   overflow: hidden;
-  border-radius: 0.5rem;
+  border-radius: 0.9rem;
   flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
 }
 
 .card_profileContainer img {
@@ -49,57 +191,19 @@
   object-fit: cover;
 }
 
-.connectButton,
-.connectedButton {
-  padding-inline: 0.8rem;
-  padding-block: 0.3rem;
-  background: rgba(253, 254, 255, 0.905);
-  outline: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: rgb(65, 87, 230);
-  border: none;
-}
-
-.connectedButton {
-  border: 1px solid rgb(21, 114, 255);
-}
-
-.connectButton:hover,
-.connectedButton:hover {
-  opacity: 0.85;
+.workHistory h3 {
+  color: var(--text-primary);
 }
 
 .workHistoryContainer {
-  display: flex;
-  gap: 1.4rem;
-  padding-top: 1.4rem;
-  width: 100%;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding-top: 1rem;
 }
 
-.workHistoryCard {
-  min-width: fit-content;
-  padding-inline: 2.5rem;
-  padding-block: 2rem;
-  border-radius: 12px;
-  box-shadow: 10px 10px 15px rgb(173, 173, 173);
-}
-
-.profileContainer__flex {
-  display: flex;
-  gap: 0.7rem;
-}
-@media (max-width: 600px) {
+@media (max-width: 820px) {
   .profileContainer__flex {
-    flex-direction: column;
-  }
-  .backDropContainer {
-    height: 20vh;
-  }
-  .backDropContainer img {
-    width: 7em;
-    height: 7em;
-    bottom: -40%;
+    grid-template-columns: 1fr;
   }
 }

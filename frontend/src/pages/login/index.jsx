@@ -19,7 +19,7 @@ function LoginComponent() {
   const [isLogin, setIsLogin] = useState(false);
 
   const handleRegister = () => {
-    console.log("registering...");
+
     dispatch(
       registerUser({
         username,
@@ -42,11 +42,11 @@ function LoginComponent() {
     if (authState.loggedIn) {
       router.push("/dashboard");
     }
-  }, [authState.loggedIn]);
+  }, [authState.loggedIn, router]);
 
   useEffect(() => {
     dispatch(emptyMessage());
-  }, [isLogin]);
+  }, [isLogin, dispatch]);
   return (
     <UserLayout>
       <div className={styles.container}>
@@ -56,7 +56,7 @@ function LoginComponent() {
               {isLogin ? "Sign In" : "Sign Up"}
             </p>
 
-            <p style={{ color: authState.isError ? "red" : "green" }}>
+            <p style={{ color: authState.isError ? "#f87171" : "#34d399" }}>
               {authState.message}
             </p>
 
@@ -92,7 +92,7 @@ function LoginComponent() {
               />
               <input
                 className={styles.inputField}
-                type="text"
+                type="password"
                 placeholder="Password"
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -113,6 +113,8 @@ function LoginComponent() {
             </div>
           </div>
           <div className={styles.cardContainer_right}>
+            <p>Thoughtful networking starts with a clear profile.</p>
+            <h2>{isLogin ? "Welcome back" : "Create your space"}</h2>
             {isLogin ? (
               <p>Don't have an account?</p>
             ) : (

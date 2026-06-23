@@ -21,7 +21,17 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("video/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image and video files are allowed"), false);
+    }
+  },
+});
 
 router.route("/").get(activeCheck);
 router.route("/post").post(upload.single("media"), createPost);
